@@ -23,4 +23,8 @@ Route::prefix('/nfe')->group(function () {
     Route::post('pdf', [App\Http\Controllers\NFeController::class, 'pdf']);
     Route::post('cce', [App\Http\Controllers\NFeController::class, 'cce']);
     Route::post('zipNfe', [App\Http\Controllers\NFeController::class, 'zipNfe']);
+    Route::GET('teste-adelcio', function() {
+        //dd('test success!!!');
+        echo('PHP version: ' . PHP_VERSION_ID);
+    });
 });

@@ -266,6 +266,11 @@ class NFeController extends Controller
 
     public function consulta(Request $request)
     {
+        //$input = $request->all();
+        //var_dump($input);
+        //dd('Chegou aqui . . .');
+
+        try {
         $this->empresa_id = $request->empresa_id;
         $this->filial_id = $request->filial_id;
         $this->nf_id = $request->nf_id;
@@ -283,7 +288,7 @@ class NFeController extends Controller
             ->where('FILIAL_ID', $this->filial_id)
             ->where('FATU_NF_ID', $this->nf_id)
             ->first();
-
+            var_dump($this->nfe);
         $resp = NfeService::consulta($empresa, $this->nfe->NFE_CHAVE_ACESSO);
         if ($resp->codigo != 5023) {
             if ($resp->sucesso) {
@@ -296,6 +301,16 @@ class NFeController extends Controller
         } else {
             $this->atualizaStatus('NFeAGPROCE', now()->format("m/d/Y H:i:s"), "{$resp->codigo} - {$resp->mensagem}");
         }
+        } catch (Exception $e) {
+            echo('erro ao tentar ler tabela para consultas . . .');
+        }
+    /*
+         return response()->json([
+            'sucesso' => 'ok', //$resp->sucesso,
+            'pdf' => 'pdf' //$resp->pdf ?? null
+        ]);
+
+*/
         return response()->json([
             'sucesso' => $resp->sucesso,
             'pdf' => $resp->pdf ?? null
